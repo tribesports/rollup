@@ -1,0 +1,96 @@
+require 'java'
+
+import org.apache.mahout.vectorizer.encoders.StaticWordValueEncoder
+import org.apache.mahout.vectorizer.encoders.ConstantValueEncoder
+import org.apache.mahout.common.distance.EuclideanDistanceMeasure
+import org.apache.mahout.common.distance.CosineDistanceMeasure
+import org.apache.mahout.clustering.canopy.Canopy
+import org.apache.mahout.clustering.canopy.CanopyClusterer
+import org.apache.mahout.math.DenseVector
+import org.apache.mahout.math.RandomAccessSparseVector
+import java.util.Map
+
+
+
+module Rollup
+
+  class CanopyClusterer
+    DEFAULT_PARAMS = {
+      :distance_measure => CosineDistanceMeasure.new,
+      :t1 => 0.1,
+      :t2 => 0.2,
+      :features => 100000,
+    }
+
+    def initialize(analyzer, dictionary, params={}, &block)
+      @params = DEFAULT_PARAMS.merge(params)
+      @analyzer = analyzer
+      @dictionary = dictionary
+      @text_encoder = StaticWordValueEncoder.new("text")
+      @algo = ::CanopyClusterer.new(@params[:distance_measure],
+                                    @params[:t1],
+                                    @params[:t2])
+      @examples = []
+      @vectors = {}
+      if block
+        block.call(self)
+      end
+    end
+
+    def add_example(example)
+      @examples << example
+      @analyzer.each_token_for(example[1]) do |token|
+        @dictionary.add(token)
+      end
+    end
+
+    def clusters
+      @vectors = Hash[*@examples.map { |id, word| [id, vector_for(word)] }.flatten]
+      @canopies = ::CanopyClusterer.create_canopies(@vectors.values,
+                                                  @params[:distance_measure],
+                                                  @params[:t1],
+                                                  @params[:t2])
+      puts @dictionary
+      puts "#{@canopies.length} canopies"
+      @clusters = Hash.new { |h,k| h[k] = [] }
+      @examples.each do |id, name|
+        can = @algo.find_closest_canopy(@vectors[id], @canopies)
+        if true #@algo.canopy_covers(can, vector_for(name))
+          @clusters[can.get_identifier] << name
+        else
+          @clusters[id] << name
+        end
+      end
+      @clusters
+    end
+
+    def canopies
+      ::CanopyClusterer.get_centers(@canopies)
+    end
+
+    def dictionary
+      @dictionary
+    end
+
+    def weight_for(word)
+      @text_encoder.weight(word)
+    end
+
+    def average_distance(examples)
+      examples.combination(2).inject(0.0) do |acc, (a, b)|
+        acc + (vector_for(a).minus(vector_for(b)).get_length_squared) ** 0.5
+      end / examples.length
+    end
+
+    private
+
+    def vector_for(example)
+      vector = RandomAccessSparseVector.new(@params[:features])
+      @analyzer.each_token_for(example) do |token|
+        @text_encoder.add_to_vector(token, @dictionary.weight(token), vector)
+      end
+      return vector.normalize
+    end
+
+  end
+end
