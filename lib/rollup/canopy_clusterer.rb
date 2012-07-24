@@ -10,8 +10,6 @@ import org.apache.mahout.math.DenseVector
 import org.apache.mahout.math.RandomAccessSparseVector
 import java.util.Map
 
-
-
 module Rollup
 
   class CanopyClusterer
@@ -47,21 +45,34 @@ module Rollup
     def clusters
       @vectors = Hash[*@examples.map { |id, word| [id, vector_for(word)] }.flatten]
       @canopies = ::CanopyClusterer.create_canopies(@vectors.values,
-                                                  @params[:distance_measure],
-                                                  @params[:t1],
-                                                  @params[:t2])
+                                                    @params[:distance_measure],
+                                                    @params[:t1],
+                                                    @params[:t2])
       puts @dictionary
       puts "#{@canopies.length} canopies"
       @clusters = Hash.new { |h,k| h[k] = [] }
       @examples.each do |id, name|
-        can = @algo.find_closest_canopy(@vectors[id], @canopies)
-        if can && @algo.canopy_covers(can, vector_for(name))
+        can = find_closest_canopy(@vectors[id], @canopies)
+        if can && @algo.canopy_covers?(can, @vectors[id])
           @clusters[can.get_identifier] << name
         else
           @clusters[id] << name
         end
       end
       @clusters
+    end
+
+    def find_closest_canopy(point, canopies)
+      closest = nil
+      min_dist = 100000
+      canopies.each do |can|
+        dist = point.minus(can.get_center).get_length_squared ** 0.5
+        if dist < min_dist
+          closest = can
+          min_dist = dist
+        end
+      end
+      closest
     end
 
     def canopies

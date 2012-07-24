@@ -37,7 +37,7 @@ module Rollup
   def run(data_file)
     data = CSV.read(data_file).shuffle
 
-    analyzer = TextAnalyzer.new(Version::LUCENE_34) do |a|
+    analyzer = TextAnalyzer.new(Version::LUCENE_36) do |a|
       h = HTMLEntities.new
       a.pre_processor do |text|
         h.decode(text).gsub(STOP_WORDS_REGEX, "")
