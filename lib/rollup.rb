@@ -9,6 +9,7 @@ require 'rollup/canopy_clusterer'
 require 'rollup/text_analyzer'
 require 'rollup/weighted_dictionary'
 require 'rollup/cluster'
+require 'rollup/product'
 require 'rollup/outputs'
 
 import org.apache.lucene.analysis.standard.StandardFilter

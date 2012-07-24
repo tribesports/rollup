@@ -10,7 +10,7 @@ module Rollup
       end
 
       def cluster(cluster_info)
-        cluster_info.values.map {|v| [cluster_info.id, v] }.
+        cluster_info.values.map {|v| [cluster_info.id, v.name, v.url] }.
           each {|tuple| @csv_rows << escape(tuple)}
       end
 

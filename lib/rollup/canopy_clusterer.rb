@@ -49,12 +49,12 @@ module Rollup
                                                     @params[:t1],
                                                     @params[:t2])
       @clusters = Hash.new { |h,k| h[k] = [] }
-      @examples.each do |id, name|
+      @examples.each do |id, name, url|
         can = find_closest_canopy(@vectors[id], @canopies)
-        if can && @algo.canopy_covers?(can, @vectors[id])
-          @clusters[can.get_identifier] << name
+        if can && @algo.canopy_covers(can, vector_for(name))
+          @clusters[can.get_identifier] << ::Product.new(name, url)
         else
-          @clusters[id] << name
+          @clusters[id] << ::Product.new(name, url)
         end
       end
       @clusters
