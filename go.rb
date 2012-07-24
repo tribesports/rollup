@@ -4,5 +4,5 @@ $:.unshift File.expand_path("../lib", __FILE__)
 
 require 'rollup'
 
-output = Rollup::Outputs::CSVRollupOutput.new
+output = Rollup::Outputs::CSVOutputDecorator.new(Rollup::Outputs::GroupedProductOutput.new)
 Rollup::Runner.new(output).run(ARGV[0])

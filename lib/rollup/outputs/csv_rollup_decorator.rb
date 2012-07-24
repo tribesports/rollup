@@ -1,21 +1,22 @@
 module Rollup
   module Outputs
-    class CSVRollupOutput
-      def initialize
+    class CSVOutputDecorator
+      def initialize(source)
         @csv_rows = []
+        @source = source
       end
 
       def start(count)
-        #noop - don't care
+        @source.start(count)
       end
 
       def cluster(cluster_info)
-        cluster_info.values.map {|v| [cluster_info.id, v.name, v.url] }.
-          each {|tuple| @csv_rows << escape(tuple)}
+        @source.cluster(cluster_info)
       end
 
       def finish
-        puts @csv_rows.join("\n")
+        @source.finish
+        puts @source.groups.map {|g| escape(g) }.join("\n")
       end
 
       private
