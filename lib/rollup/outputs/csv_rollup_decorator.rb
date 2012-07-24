@@ -16,12 +16,7 @@ module Rollup
 
       def finish
         @source.finish
-        puts @source.groups.map {|g| escape(g) }.join("\n")
-      end
-
-      private
-      def escape(tuple)
-        tuple.map {|v| "\"#{v}\""}.join(",")
+        puts @source.groups.map {|g| CSV.generate_line(g) }.join("\n")
       end
     end
   end
