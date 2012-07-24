@@ -3,7 +3,7 @@ class ConsoleRollupOutput
     @cluster_count = 0
   end
 
-  def data(count)
+  def start(count)
     @count = count
   end
 

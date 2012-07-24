@@ -40,7 +40,7 @@ module Rollup
 
     def run(data_file)
       data = CSV.read(data_file).shuffle
-      @output.data(data.length)
+      @output.start(data.length)
 
       analyzer = TextAnalyzer.new(Version::LUCENE_36) do |a|
         h = HTMLEntities.new
