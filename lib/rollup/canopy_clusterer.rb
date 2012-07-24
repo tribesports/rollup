@@ -48,8 +48,6 @@ module Rollup
                                                     @params[:distance_measure],
                                                     @params[:t1],
                                                     @params[:t2])
-      puts @dictionary
-      puts "#{@canopies.length} canopies"
       @clusters = Hash.new { |h,k| h[k] = [] }
       @examples.each do |id, name|
         can = find_closest_canopy(@vectors[id], @canopies)

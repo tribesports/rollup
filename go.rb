@@ -4,4 +4,4 @@ $:.unshift File.expand_path("../lib", __FILE__)
 
 require 'rollup'
 
-Rollup.run(ARGV[0])
+Rollup::Runner.new(ConsoleRollupOutput.new).run(ARGV[0])
