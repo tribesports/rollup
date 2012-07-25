@@ -6,14 +6,14 @@ require 'rollup'
 
 class GroupDiff
   def initialize(best, actual)
-    @best_count = best.keys.size
-    @actual_count = actual.keys.size
+    @best_count = best.map(&:first).uniq.size
+    @actual_count = actual.map(&:first).uniq.size
   end
 
   def to_s
     "Best: #{@best_count}\n
      Actual: #{@actual_count}\n
-     Diff: #{@best_count - @actual_count}"
+     Diff: #{(@best_count - @actual_count).abs}"
   end
 end
 

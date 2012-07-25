@@ -11,6 +11,7 @@ require 'rollup/weighted_dictionary'
 require 'rollup/cluster'
 require 'rollup/product'
 require 'rollup/outputs'
+require 'rollup/inputs/csv_group_import'
 
 import org.apache.lucene.analysis.standard.StandardFilter
 import org.apache.lucene.analysis.standard.StandardAnalyzer

@@ -1,6 +1,6 @@
 module Rollup
   module Inputs
-    module CSVGroupImport
+    class CSVGroupImport
       def initialize(output)
         @output = output
         @groups = Hash.new do |h, k|
@@ -14,8 +14,9 @@ module Rollup
         data.each do |row|
           @groups[row[1]] << row
         end
-        @groups.each do |g, v|
-          @output.cluster(Cluster.new(g, 0.0, Product.new(v[2], v[3]))) 
+        @groups.each do |group, values|
+          products = values.compact.map {|v| Product.new(v[2], v[3]) }
+          @output.cluster(Cluster.new(group, 0.0, products)) 
         end
         @output.finish
       end
