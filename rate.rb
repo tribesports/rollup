@@ -11,9 +11,7 @@ class GroupDiff
   end
 
   def to_s
-    "Best: #{@best_count}\n
-     Actual: #{@actual_count}\n
-     Diff: #{(@best_count - @actual_count).abs}"
+     "#{(@best_count - @actual_count).abs}"
   end
 end
 
