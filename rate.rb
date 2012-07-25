@@ -20,7 +20,7 @@ Rollup::Inputs::CSVGroupImport.new(best_groups_collector).run(ARGV[0])
 best_groups = best_groups_collector.groups
 
 actual_groups_collector = Rollup::Outputs::GroupedProductOutput.new
-Rollup::Runner.new(actual_groups_collector).run(ARGV[1])
+Rollup::Runner.new(actual_groups_collector).run(ARGV[1], :t1 => ARGV[2].to_f, :t2 => ARGV[3].to_f)
 actual_groups = actual_groups_collector.groups
 
 diff = GroupDiff.new(best_groups, actual_groups)

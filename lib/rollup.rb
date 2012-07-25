@@ -40,7 +40,7 @@ module Rollup
 
     STOP_WORDS_REGEX = Regexp.new(STOP_WORDS.map{|w| "\\b#{w}\\b"}.join("|"), true)
 
-    def run(data_file)
+    def run(data_file, params={})
       data = CSV.read(data_file).shuffle
       @output.start(data.length)
 
@@ -55,7 +55,7 @@ module Rollup
   #      a.filter PorterStemFilter
       end
 
-      clusterer = Rollup::CanopyClusterer.new(analyzer, WeightedDictionary.new) do |clusterer|
+      clusterer = Rollup::CanopyClusterer.new(analyzer, WeightedDictionary.new, params) do |clusterer|
         data.each do |example|
           clusterer.add_example(example)
         end
