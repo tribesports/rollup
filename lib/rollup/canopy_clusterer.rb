@@ -52,9 +52,9 @@ module Rollup
       @examples.each do |id, name, url|
         can = find_closest_canopy(@vectors[id], @canopies)
         if can && @algo.canopy_covers(can, vector_for(name))
-          @clusters[can.get_identifier] << ::Product.new(name, url)
+          @clusters[can.get_identifier] << Product.new(name, url)
         else
-          @clusters[id] << ::Product.new(name, url)
+          @clusters[id] << Product.new(name, url)
         end
       end
       @clusters
