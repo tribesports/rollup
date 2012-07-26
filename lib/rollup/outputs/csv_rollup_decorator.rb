@@ -16,7 +16,10 @@ module Rollup
 
       def finish
         @source.finish
-        puts @source.groups.map {|g| CSV.generate_line(g) }.join("\n")
+      end
+      
+      def result
+        @source.groups.map {|g| CSV.generate_line(g) }.join("\n")
       end
     end
   end
