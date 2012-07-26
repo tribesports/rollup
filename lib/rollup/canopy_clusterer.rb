@@ -63,7 +63,7 @@ module Rollup
 
     def find_closest_canopy(point, canopies)
       closest = nil
-      min_dist = 100000
+      min_dist = Float::MAX
       canopies.each do |can|
         dist = point.minus(can.get_center).get_length_squared ** 0.5
         if dist < min_dist
