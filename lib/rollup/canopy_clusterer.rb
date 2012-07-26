@@ -30,6 +30,7 @@ module Rollup
                                     @params[:t2])
       @examples = []
       @vectors = {}
+      @vector_maker = SentenceVectorMaker.new(@analyzer, @dictionary, @text_encoder)
       if block
         block.call(self)
       end
@@ -94,12 +95,7 @@ module Rollup
     private
 
     def vector_for(example)
-      vector = RandomAccessSparseVector.new(@params[:features])
-      @analyzer.each_token_for(example) do |token|
-        @text_encoder.add_to_vector(token, @dictionary.weight(token), vector)
-      end
-      return vector.normalize
+      @vector_maker.vector_for(example, @params[:features])
     end
-
   end
 end
