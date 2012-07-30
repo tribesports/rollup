@@ -5,6 +5,7 @@ Dir[File.expand_path("../../vendor/*.jar", __FILE__)].each do |jar|
 end
 require 'csv'
 require 'htmlentities'
+require 'json'
 require 'rollup/sentence_vector_maker'
 require 'rollup/canopy_clusterer'
 require 'rollup/text_analyzer'

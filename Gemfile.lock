@@ -2,9 +2,11 @@ GEM
   remote: https://rubygems.org/
   specs:
     htmlentities (4.3.1)
+    json (1.7.4-java)
 
 PLATFORMS
   java
 
 DEPENDENCIES
   htmlentities
+  json
