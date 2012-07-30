@@ -1,0 +1,7 @@
+== Rollup
+
+Utility for getting product groupings from a CSV list. It spits them out as JSON. It's great.
+
+=== Building and shit
+
+Run `warble` in the root. If it decides to cooperate, you'll get a rollup.jar file. If not, it'll sit there for 10 minutes doing nothing. SIGINT that bastard and try again.
