@@ -42,8 +42,8 @@ module Rollup
 
     STOP_WORDS_REGEX = Regexp.new(STOP_WORDS.map{|w| "\\b#{w}\\b"}.join("|"), true)
 
-    def run(data_file, params={})
-      data = CSV.read(data_file).shuffle
+    def run(data, params={})
+      data = CSV.parse(data).shuffle
       @output.start(data.length)
 
       analyzer = TextAnalyzer.new(Version::LUCENE_36) do |a|
