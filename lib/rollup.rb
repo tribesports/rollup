@@ -25,8 +25,9 @@ import org.apache.lucene.util.Version
 
 module Rollup
   class Runner
-    def initialize(output)
+    def initialize(output, weight_boosts)
       @output = output
+      @weight_boosts = weight_boosts
     end
 
     STOP_WORDS = %w{
@@ -57,7 +58,7 @@ module Rollup
   #      a.filter PorterStemFilter
       end
 
-      clusterer = Rollup::CanopyClusterer.new(analyzer, WeightedDictionary.new, params) do |clusterer|
+      clusterer = Rollup::CanopyClusterer.new(analyzer, WeightedDictionary.new(@weight_boosts), params) do |clusterer|
         data.each do |example|
           clusterer.add_example(example)
         end

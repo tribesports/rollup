@@ -1,8 +1,9 @@
 module Rollup
   class WeightedDictionary
-    def initialize
+    def initialize(weight_boosts)
       @words = []
       @counts = Hash.new(0)
+      @weight_boosts = weight_boosts
     end
 
     def add(word)
@@ -40,7 +41,11 @@ module Rollup
         6.0
       else
         -Math.log( (@counts[word] + 0.5) / (@words.length + (@counts.keys.length / 2) + 0.5) )
-      end
+      end * boost_for(word)
+    end
+
+    def boost_for(word)
+      @weight_boosts.fetch(word, 1.0)
     end
 
   end
