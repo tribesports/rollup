@@ -34,7 +34,7 @@ after   "deploy:update_code",     "deploy:build"
 
 namespace :deploy do
   desc "build jar"
-  task :build, :roles => :app do
+  task :build, :roles => :web do
     run "rake"
   end
 end
