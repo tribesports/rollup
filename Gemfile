@@ -4,4 +4,6 @@ gem "htmlentities"
 gem "json"
 gem "warbler"
 
-gem "capistrano"
+group :deploy do
+  gem "capistrano"
+end
