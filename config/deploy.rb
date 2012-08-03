@@ -32,12 +32,13 @@ default_environment['PATH'] = "/usr/local/bin:$PATH"
 # Task ordering
 after   "deploy:update_code",     "deploy:build"
 
-task :deploy do
-  update_code
-  deploy.build
-end
-
 namespace :deploy do
+  task :default do
+    update_code
+    symlink
+    build
+  end
+
   desc "build jar"
   task :build, :roles => :web do
     run "cd #{release_path} && RAILS_ENV=#{rails_env} bundle exec rake"
