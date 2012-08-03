@@ -1,10 +1,10 @@
-server "spokane", :app, :db, :primary => true
-server "mohave", :app, :web, :monitor
+#server "spokane", :app, :db, :primary => true
+server "mohave", :app, :web
 server "mohawk", :app, :web
-server "classic", :app, :search, :task_master
-server "cholon", :app, :worker
-server "choctaw", :app, :worker
-server "chumash", :app, :worker
+#server "classic", :app, :search, :task_master
+#server "cholon", :app, :worker
+#server "choctaw", :app, :worker
+#server "chumash", :app, :worker
 
 set :application,         "shopsearch"
 set :rails_env,           "production"
@@ -32,10 +32,15 @@ default_environment['PATH'] = "/usr/local/bin:$PATH"
 # Task ordering
 after   "deploy:update_code",     "deploy:build"
 
+task :deploy do
+  update_code
+  deploy.build
+end
+
 namespace :deploy do
   desc "build jar"
   task :build, :roles => :web do
-    run "rake"
+    run "cd #{release_path} && RAILS_ENV=#{rails_env} bundle exec rake"
   end
 end
 
