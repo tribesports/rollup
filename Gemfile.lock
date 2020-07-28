@@ -11,8 +11,8 @@ GEM
     htmlentities (4.3.1)
     jruby-jars (1.6.7.2)
     jruby-rack (1.1.7)
-    json (1.7.4)
-    json (1.7.4-java)
+    json (2.3.0)
+    json (2.3.0-java)
     net-scp (1.0.4)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -30,6 +30,7 @@ GEM
 
 PLATFORMS
   java
+  ruby
 
 DEPENDENCIES
   capistrano
